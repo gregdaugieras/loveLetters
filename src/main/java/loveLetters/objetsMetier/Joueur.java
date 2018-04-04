@@ -17,13 +17,11 @@ public class Joueur {
         this.id = id;
     }
 
-    
     protected EtatJoueur getEtat() {
         return etat;
     }
 
-    
-    protected void setEtat(EtatJoueur etat) {
+    public void setEtat(EtatJoueur etat) {
         this.etat = etat;
     }
 
@@ -56,7 +54,7 @@ public class Joueur {
         cartePiochee = pioche.poll();
     }
 
-    protected Carte getCarteActive() {
+    public Carte getCarteActive() {
         return carteActive;
     }
 
@@ -64,7 +62,7 @@ public class Joueur {
         this.carteActive = carteActive;
     }
 
-    protected Carte getCartePiochee() {
+    public Carte getCartePiochee() {
         return cartePiochee;
     }
 

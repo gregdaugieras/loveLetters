@@ -13,7 +13,7 @@ public enum Carte {
         this.numero = numero;
     }
 
-    protected int getNumero() {
+    public int getNumero() {
         return numero;
     }
 

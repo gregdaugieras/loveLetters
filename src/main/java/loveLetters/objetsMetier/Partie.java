@@ -27,7 +27,7 @@ public class Partie {
 
     public Partie() {
         super();
-        initPArtie();
+        initPartie();
     }
 
     public List<Joueur> obtenirJoueurAttaquable() {
@@ -95,28 +95,28 @@ public class Partie {
         debuterNouveauTour();
     }
 
-    private void initPArtie() {
+    private void initPartie() {
         for (Carte c : Carte.values()) {
             pioche.add(c);
         }
     }
 
-    public void ajouterJoueur(Joueur j) throws Exception {
+    public void ajouterJoueur(Joueur j) throws LoveLettersException {
         if (j == null || joueurs.contains(j)) {
-            throw new Exception("tentative d'ajout d'un joueur null ou deja existant");
+            throw new LoveLettersException("tentative d'ajout d'un joueur null ou deja existant");
         }
         joueurs.add(j);
     }
 
     public void eliminerJoueur(Joueur j) {
-        joueurs.remove(j);
+        j.setEtat(EtatJoueur.MORT);
     }
 
     protected Collection<Joueur> getJoueurs() {
         return joueurs;
     }
 
-    protected Joueur getJoueurCourant() {
+    public Joueur getJoueurCourant() {
         return JoueurCourant;
     }
 
