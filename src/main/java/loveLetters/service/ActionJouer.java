@@ -1,7 +1,5 @@
 package loveLetters.service;
 
-import java.lang.annotation.Annotation;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,6 +7,7 @@ import loveLetters.annotation.NeedCarte;
 import loveLetters.annotation.NeedJoueur;
 import loveLetters.exception.LoveLettersException;
 import loveLetters.objetsMetier.Carte;
+import loveLetters.objetsMetier.EtatJoueur;
 import loveLetters.objetsMetier.Joueur;
 import loveLetters.objetsMetier.Partie;
 
@@ -46,8 +45,8 @@ public abstract class ActionJouer {
             return false;
         }
         // le joueur est bien le joueur courant de la partie
-        if (partie.getJoueurCourant() != joueur) {
-            log.error("le joueur n'est pas le joueur courant de la partie");
+        if (partie.getJoueurCourant() != joueur || partie.getJoueurCourant().getEtat() == EtatJoueur.MORT) {
+            log.error("le joueur n'est pas le joueur courant de la partie ou il est mort");
             return false;
         }
         // la joeur possede bien la carte a jouer
@@ -58,10 +57,6 @@ public abstract class ActionJouer {
         // le joueur cible est bien ciblable
         if (!partie.obtenirJoueurAttaquable().contains(joueurCible)) {
             log.error("la cible n'est pas un joueur attaquable");
-            return false;
-        }
-        if (carte == Carte.SOLDAT && carteCible == Carte.SOLDAT) {
-            log.error("on ne peut pas assassiner un soldat");
             return false;
         }
         return true;
@@ -81,5 +76,10 @@ public abstract class ActionJouer {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "ActionJouer [joueur=" + joueur + ", carte=" + carte + ", joueurCible=" + joueurCible + ", carteCible=" + carteCible + "]";
     }
 }

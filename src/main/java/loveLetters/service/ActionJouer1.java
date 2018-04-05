@@ -14,7 +14,12 @@ public class ActionJouer1 extends ActionJouer {
 
     @Override
     public Carte jouer() throws LoveLettersException {
-        if (!this.isValide()) {
+        boolean invalideSoldat = false;
+        if (carteCible == Carte.SOLDAT) {
+            log.error("on ne peut pas assassiner un soldat");
+            invalideSoldat = true;
+        }
+        if (!this.isValide() || invalideSoldat) {
             throw new LoveLettersException("l'action n'est pas valide");
         }
         if (joueurCible.getCarteActive() == carteCible) {
@@ -22,5 +27,10 @@ public class ActionJouer1 extends ActionJouer {
             joueur.defausserCarte(carte);
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return joueur.getPseudo() + " accuse " + joueurCible.getPseudo() + " d'etre la carte " + carteCible;
     }
 }

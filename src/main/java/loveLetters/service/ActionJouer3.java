@@ -17,13 +17,18 @@ public class ActionJouer3 extends ActionJouer {
         if (!this.isValide()) {
             throw new LoveLettersException("l'action n'est pas valide");
         }
-        Carte carte2 = (joueur.getCarteActive() == Carte.BARON) ? joueur.getCartePiochee() : joueur.getCarteActive();
+        Carte carte2 = joueur.obtenirSecondeCarte(carte);
         if (carte2.getNumero() > joueurCible.getCarteActive().getNumero()) {
             partie.eliminerJoueur(joueurCible);
         }
         else if (carte2.getNumero() < joueurCible.getCarteActive().getNumero()) {
             partie.eliminerJoueur(joueur);
         }
-        return null;
+        return joueurCible.getCarteActive();
+    }
+
+    @Override
+    public String toString() {
+        return joueur.getPseudo() + " provoque en duel " + joueurCible.getPseudo() + " avec son " + carte;
     }
 }

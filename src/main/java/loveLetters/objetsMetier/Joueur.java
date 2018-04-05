@@ -17,7 +17,7 @@ public class Joueur {
         this.id = id;
     }
 
-    protected EtatJoueur getEtat() {
+    public EtatJoueur getEtat() {
         return etat;
     }
 
@@ -34,16 +34,19 @@ public class Joueur {
     /**
      * supprime la carte de la main du joueur. si c'est la carte active et que la carte Pioché est non null,
      * transfere la carte pioché vers la carte active.
+     * Si le joueur defause la princesse, il est mort.
      * @param j
      * @param carte
      */
     public void defausserCarte(Carte carte) {
         if (carte == cartePiochee) {
             cartePiochee = null;
+            etat = (carte == Carte.PRINCESSE) ? EtatJoueur.MORT : etat;
         }
         else if (carte == carteActive) {
             carteActive = cartePiochee;
             cartePiochee = null;
+            etat = (carte == Carte.PRINCESSE) ? EtatJoueur.MORT : etat;
         }
     }
 
@@ -54,11 +57,15 @@ public class Joueur {
         cartePiochee = pioche.poll();
     }
 
+    public Carte obtenirSecondeCarte(Carte carte) {
+        return (carte == carteActive) ? cartePiochee : carteActive;
+    }
+
     public Carte getCarteActive() {
         return carteActive;
     }
 
-    protected void setCarteActive(Carte carteActive) {
+    public void setCarteActive(Carte carteActive) {
         this.carteActive = carteActive;
     }
 
@@ -78,7 +85,7 @@ public class Joueur {
         this.id = id;
     }
 
-    protected String getPseudo() {
+    public String getPseudo() {
         return pseudo;
     }
 
@@ -110,13 +117,13 @@ public class Joueur {
 
     @Override
     public String toString() {
-        return "[" + pseudo + "]";
+        return afficherMain();
     }
 
     public String afficherMain() {
-        StringBuilder sb = new StringBuilder("[" + pseudo + " ");
-        sb.append((carteActive != null) ? " carte1 = " + carteActive.getNumero() : "");
-        sb.append((cartePiochee != null) ? " carte2 =  " + cartePiochee.getNumero() : "");
+        StringBuilder sb = new StringBuilder("[" + pseudo + "(" + etat + ") ");
+        sb.append((carteActive != null) ? " carte1 = " + carteActive : "");
+        sb.append((cartePiochee != null) ? " carte2 =  " + cartePiochee : "");
         sb.append("]");
         return sb.toString();
     }

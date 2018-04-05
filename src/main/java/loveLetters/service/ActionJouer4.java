@@ -2,12 +2,13 @@ package loveLetters.service;
 
 import loveLetters.exception.LoveLettersException;
 import loveLetters.objetsMetier.Carte;
+import loveLetters.objetsMetier.EtatJoueur;
 import loveLetters.objetsMetier.Joueur;
 import loveLetters.objetsMetier.Partie;
 
-public class ActionJouer2 extends ActionJouer {
+public class ActionJouer4 extends ActionJouer {
 
-    public ActionJouer2(Partie partie, Joueur joueur, Carte carte, Joueur joueurCible, Carte carteCible) {
+    public ActionJouer4(Partie partie, Joueur joueur, Carte carte, Joueur joueurCible, Carte carteCible) {
         super(partie, joueur, carte, joueurCible, carteCible);
         // TODO Auto-generated constructor stub
     }
@@ -17,12 +18,13 @@ public class ActionJouer2 extends ActionJouer {
         if (!this.isValide()) {
             throw new LoveLettersException("l'action n'est pas valide");
         }
+        joueur.setEtat(EtatJoueur.PROTEGE);
         joueur.defausserCarte(carte);
-        return joueurCible.getCarteActive();
+        return null;
     }
 
     @Override
     public String toString() {
-        return joueur.getPseudo() + " voit la carte de " + joueurCible.getPseudo() + " avec son " + carte;
+        return joueur.getPseudo() + " se protege avec sa " + carte;
     }
 }
