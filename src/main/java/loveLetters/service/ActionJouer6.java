@@ -19,6 +19,7 @@ public class ActionJouer6 extends ActionJouer {
         joueur.defausserCarte(carte);
         joueur.setCarteActive(carteARecevoir);
         joueurCible.setCarteActive(carteADonnee);
+        joueur.defausserCarte(carte);
         return null;
     }
     

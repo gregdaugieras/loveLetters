@@ -11,7 +11,7 @@ public class PartieTest {
 
     @Test
     public void initTest() throws Exception {
-        Partie p = new Partie();
+        Partie p = new Partie(1);
         Joueur j1 = new Joueur(1, "j1");
         Joueur j2 = new Joueur(2, "j2");
         assertTrue(p.getPioche().contains(Carte.SOLDAT));
@@ -29,8 +29,8 @@ public class PartieTest {
     }
 
     @Test(expected = Exception.class)
-    public void joueurDoubleTest() throws Exception {
-        Partie p = new Partie();
+    public void ajouterJoueurDoubleTest() throws Exception {
+        Partie p = new Partie(1);
         Joueur j1 = new Joueur(1);
         p.ajouterJoueur(j1);
         assertTrue(p.getJoueurs().size() == 1);
@@ -39,8 +39,8 @@ public class PartieTest {
     }
 
     @Test(expected = Exception.class)
-    public void joueurNull() throws Exception {
-        Partie p = new Partie();
+    public void ajouterJoueurNull() throws Exception {
+        Partie p = new Partie(1);
         p.ajouterJoueur(null);
         assertTrue(false);
     }
@@ -52,6 +52,20 @@ public class PartieTest {
         Joueur j1 = p.getJoueurCourant();
         p.debuterNouveauTour();
         assertFalse("premierJoueur = " + j1.getPseudo() + " joueurSuivant = " + p.getJoueurCourant().getPseudo(), j1.equals(p.getJoueurCourant()));
+    }
+
+    @Test
+    public void isFinDePartieTest() throws Exception {
+        Partie p = initTest2joueurs();
+        p.start();
+        assertFalse(p.isFinDePArtie());
+        for (Joueur j : p.getJoueurs()) {
+            j.setEtat(EtatJoueur.MORT);
+        }
+        p.getJoueurCourant().setEtat(EtatJoueur.PROTEGE);
+        assertTrue(p.isFinDePArtie());
+        p.getJoueurSuivant().setEtat(EtatJoueur.NORMAL);
+        assertFalse(p.isFinDePArtie());
     }
 
     /**
@@ -71,7 +85,7 @@ public class PartieTest {
     }
 
     private Partie initTest2joueurs() throws Exception {
-        Partie p = new Partie();
+        Partie p = new Partie(1);
         Joueur j1 = new Joueur(1, "j1");
         Joueur j2 = new Joueur(2, "j2");
         p.ajouterJoueur(j1);

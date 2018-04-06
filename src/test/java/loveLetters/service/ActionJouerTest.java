@@ -1,26 +1,28 @@
 package loveLetters.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
 import loveLetters.exception.CaNauraitJamaisDuArriverException;
 import loveLetters.exception.LoveLettersException;
+import loveLetters.iService.IActionJouer;
+import loveLetters.iService.IFabriqueActionJouer;
 import loveLetters.objetsMetier.Carte;
 import loveLetters.objetsMetier.Joueur;
 import loveLetters.objetsMetier.Partie;
-import loveLetters.objetsMetier.PartieTest;
 
 public class ActionJouerTest {
 
     private Logger log = Logger.getLogger(ActionJouerTest.class);
     Partie p;
     Joueur j1, j2, j3;
-    FabriqueActionJouer fabrique = new FabriqueActionJouer();
+    IFabriqueActionJouer fabrique = new FabriqueActionJouer();
 
     public void creerPartie() throws LoveLettersException {
-        p = new Partie();
+        p = new Partie(1);
         j1 = new Joueur(1, "j1");
         j2 = new Joueur(2, "j2");
         j3 = new Joueur(3, "j3");
@@ -61,11 +63,12 @@ public class ActionJouerTest {
             Joueur jc = p.getJoueurCourant();
             Carte carteAJouer = p.getJoueurCourant().getCarteActive();
             Joueur jCible = (p.obtenirJoueurAttaquable().size() > 1) ? p.obtenirJoueurAttaquable().get(1) : p.obtenirJoueurAttaquable().get(0);
-            ActionJouer aj = fabrique.creerAction(p, jc, carteAJouer, jCible, Carte.PRETRE);
+            IActionJouer aj = fabrique.creerAction(p, jc, carteAJouer, jCible, Carte.PRETRE);
             if (aj.isComplete() && aj.isValide()) {
-                log.debug(p.toString());
+                log.debug("debut de tour " + p.toString());
                 log.debug(aj.toString());
                 aj.jouer();
+                log.debug("fin de tour : " + p.toString());
                 p.debuterNouveauTour();
             }
             else {

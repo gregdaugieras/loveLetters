@@ -2,12 +2,12 @@ package loveLetters.objetsMetier;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.LinkedTransferQueue;
 import java.util.concurrent.TransferQueue;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import org.slf4j.LoggerFactory;
 
@@ -19,16 +19,13 @@ public class Partie {
     private org.slf4j.Logger log = LoggerFactory.getLogger(Partie.class);
     private LinkedList<Joueur> joueurs = new LinkedList<>();
     private EtatPartie etatPartie;
-
-    public TransferQueue<Carte> getPioche() {
-        return pioche;
-    }
-
     private LinkedTransferQueue<Carte> pioche = new LinkedTransferQueue<>();
     private Joueur JoueurCourant;
+    private int id;
 
-    public Partie() {
+    public Partie(int id) {
         super();
+        this.id = id;
         initPartie();
         etatPartie = EtatPartie.INITIALISE;
     }
@@ -60,17 +57,17 @@ public class Partie {
         int nbJoueur = joueurs.size();
         int choix = (int) Math.round(Math.random() * (nbJoueur - 1));
         for (int i = 0; i < choix; i++) {
-            obtenirJoueurVivantSuivant();
+            getJoueurVivantSuivant();
         }
-        JoueurCourant = obtenirJoueurVivantSuivant();
+        JoueurCourant = getJoueurVivantSuivant();
     }
 
     /**
-     * verfie si la partie est terminé car il ne reste plus qu'un joueur ou que la pioche est vide
-     * @return true si la pioche est vide ou s'il ne reste qu'un joueur, flase sinon
+     * verfie si la partie est terminé car il ne reste plus qu'un joueur ou que la pioche a moins de 2 cartes
+     * @return true si la pioche est finie ou s'il ne reste qu'un joueur, false sinon
      */
     public boolean isFinDePArtie() {
-        if (joueurs.size() == 1 || pioche.isEmpty()) {
+        if (getJoueursVivant().size() < 2 || pioche.size() < 2) {
             return true;
         }
         return false;
@@ -82,23 +79,35 @@ public class Partie {
      */
     public void debuterNouveauTour() throws CaNauraitJamaisDuArriverException {
         if (isFinDePArtie()) {
+            log.debug("Fin de la partie. Le gagnant est " + getGagnant().get().getPseudo());
             etatPartie = EtatPartie.FINI;
         }
         else {
-            JoueurCourant = obtenirJoueurVivantSuivant();
+            JoueurCourant = getJoueurVivantSuivant();
             JoueurCourant.piocher(pioche);
         }
+    }
+
+    protected Optional<Joueur> getGagnant() {
+        Optional<Joueur> gagnant = Optional.ofNullable(null);
+        if (getJoueursVivant().size() == 1) {
+            gagnant = Optional.ofNullable(getJoueursVivant().get(0));
+        }
+        else {
+            gagnant = joueurs.stream().max((a, b) -> a.getCarteActive().getNumero() - b.getCarteActive().getNumero());
+        }
+        return gagnant;
     }
 
     /**
      * permet de recuperer le prochain joueur non mort
      * @return
      */
-    private Joueur obtenirJoueurVivantSuivant() {
+    protected Joueur getJoueurVivantSuivant() {
         // on ajoute le premier element a la fin de la list puis on supprime le premier element.
-        Joueur j = obtenirJoueurSuivant1();
+        Joueur j = getJoueurSuivant();
         while (j.getEtat() == EtatJoueur.MORT) {
-            j = obtenirJoueurSuivant1();
+            j = getJoueurSuivant();
         }
         return j;
     }
@@ -107,11 +116,25 @@ public class Partie {
      * recupere le prochain joueur en decalant la liste chainé de joueur d'une position
      * @return
      */
-    private Joueur obtenirJoueurSuivant1() {
+    protected Joueur getJoueurSuivant() {
         Joueur j = joueurs.getFirst();
         joueurs.offerLast(j);
         joueurs.removeFirst();
         return joueurs.getFirst();
+    }
+
+    /**
+     * recupere le prochain joueur en decalant la liste chainé de joueur d'une position
+     * @return
+     */
+    protected LinkedList<Joueur> getJoueursVivant() {
+        LinkedList<Joueur> res = new LinkedList<>();
+        for (Joueur joueur : joueurs) {
+            if (joueur.getEtat() != EtatJoueur.MORT) {
+                res.add(joueur);
+            }
+        }
+        return res;
     }
 
     public void jouer(Joueur j, Carte carte) throws LoveLettersException {
@@ -123,9 +146,14 @@ public class Partie {
      * rempli la pioche de carte
      */
     private void initPartie() {
+        List<Carte> cartes = new ArrayList<>();
         for (Carte c : Carte.values()) {
-            pioche.add(c);
+            for (int i = 0; i < c.getNbExemplaire(); i++) {
+                cartes.add(c);
+            }
         }
+        Collections.shuffle(cartes);
+        cartes.stream().forEach(c -> pioche.add(c));
     }
 
     /**
@@ -157,6 +185,10 @@ public class Partie {
 
     public Joueur getJoueurCourant() {
         return JoueurCourant;
+    }
+
+    public TransferQueue<Carte> getPioche() {
+        return pioche;
     }
 
     @Override

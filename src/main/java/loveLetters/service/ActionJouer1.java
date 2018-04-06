@@ -24,8 +24,8 @@ public class ActionJouer1 extends ActionJouer {
         }
         if (joueurCible.getCarteActive() == carteCible) {
             partie.eliminerJoueur(joueurCible);
-            joueur.defausserCarte(carte);
         }
+        joueur.defausserCarte(carte);
         return null;
     }
 

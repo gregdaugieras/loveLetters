@@ -1,16 +1,18 @@
 package loveLetters.service;
 
+import loveLetters.iService.IActionJouer;
+import loveLetters.iService.IFabriqueActionJouer;
 import loveLetters.objetsMetier.Carte;
 import loveLetters.objetsMetier.Joueur;
 import loveLetters.objetsMetier.Partie;
 
-public class FabriqueActionJouer {
+public class FabriqueActionJouer implements IFabriqueActionJouer {
 
     public FabriqueActionJouer() {
         super();
     }
 
-    public ActionJouer creerAction(Partie partie, Joueur joueur, Carte carte, Joueur joueurCible, Carte carteCible) {
+    public IActionJouer creerAction(Partie partie, Joueur joueur, Carte carte, Joueur joueurCible, Carte carteCible) {
         ActionJouer aj = null;
         switch (carte) {
             case SOLDAT:

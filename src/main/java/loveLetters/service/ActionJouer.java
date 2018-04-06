@@ -6,19 +6,20 @@ import org.slf4j.LoggerFactory;
 import loveLetters.annotation.NeedCarte;
 import loveLetters.annotation.NeedJoueur;
 import loveLetters.exception.LoveLettersException;
+import loveLetters.iService.IActionJouer;
 import loveLetters.objetsMetier.Carte;
 import loveLetters.objetsMetier.EtatJoueur;
 import loveLetters.objetsMetier.Joueur;
 import loveLetters.objetsMetier.Partie;
 
-public abstract class ActionJouer {
+public abstract class ActionJouer implements IActionJouer {
 
     Logger log = LoggerFactory.getLogger(ActionJouer.class);
-    Partie partie;
-    Joueur joueur;
-    Carte carte;
-    Joueur joueurCible;
-    Carte carteCible;
+    protected Partie partie;
+    protected Joueur joueur;
+    protected Carte carte;
+    protected Joueur joueurCible;
+    protected Carte carteCible;
 
     public ActionJouer(Partie partie, Joueur joueur, Carte carte, Joueur joueurCible, Carte carteCible) {
         super();

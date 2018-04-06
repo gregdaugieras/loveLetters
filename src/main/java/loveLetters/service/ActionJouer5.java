@@ -28,6 +28,7 @@ public class ActionJouer5 extends ActionJouer {
         if (joueurCible.getEtat() != EtatJoueur.MORT) {
             joueurCible.piocher(partie.getPioche());
         }
+        joueur.defausserCarte(carte);
         return carteDefausse;
     }
 
