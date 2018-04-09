@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>daugieras.gregory</groupId>
+	<artifactId>loveLetter-ws</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+
+	<!-- Héritage du POM Insee -->
+	<parent>
+		<groupId>daugieras.gregory</groupId>
+		<artifactId>loveLetters</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+
+
+
+
+	<!-- Déploiement du projet sur CVS via Maven : ne rien mettre si vous utilisez Eclipse ou TortoiseCVS On définit ici les 
+		informations nécessaires pour relier le projet à son dépôt CVS -->
+	<scm>
+		<!-- La balise <connection> doit être de la forme : scm:cvs:ext:idep@gforge.insee.fr:/cvsroot/nom-du-projet:nom-du-module 
+			Par exemple : scm:cvs:ext:ozp6kz@gforge.insee.fr:/cvsroot/maven-repo:nom-du-module -->
+		<!-- La balise URL dépend des mêmes paramètres que la balise <connection>, à savoir le nom du projet, et le nom du module. 
+			En reprenant l'exemple précédent : http://gforge.insee.fr/plugins/scmcvs/cvsweb.php/nom-du-module/?cvsroot=maven-repo -->
+	</scm>
+
+
+
+	<!-- Déploiement du site HTML : laisser en commentaire si vous n'utilisez pas la fonction Les balises suivantes permettent 
+		de définir l'URL du site sur lequel sera deployé les pages documentaires HTML générées par Maven lors de la commande mvn 
+		site:deploy. Veuillez vous assurer d'avoir les droits nécessaires pour déployer des fichiers sur l'URL choisie avant de lancer 
+		la commande. Par exemple : <distributionManagement> <site> <id>gforge.insee.fr</id> <name>Site web test</name> <url> scp://gforge.insee.fr/var/lib/gforge/chroot/home/groups/maven-repo/htdocs/testSite 
+		</url> </site> </distributionManagement> Maven va déployer le site HTML sur le projet "maven-repo" de GForge. Il sera ensuite 
+		accessible via l'URL http://gforge.insee.fr/groups/maven-repo/testSite/ -->
+
+
+	<!-- *************************************** LA GESTION DES DEPENDANCES COMMENCE ICI *************************************** -->
+	<dependencies>
+		<!-- C'est ici que seront declarées toutes les dépendances du projet. La déclaration d'une dépendance se fait de la manière 
+			suivante : <dependency> <groupId>junit</groupId> <artifactId>junit</artifactId> <version>4.8.2</version> <scope>test</scope> 
+			</dependency> Les tags <groupId>, <artifactId> et <version> servent à identifier la librairie que vous souhaitez ajouter 
+			en dépendance. Le tag <scope> correspond à la portée des dépendances : - compile (valeur par defaut si le tag est omis) : 
+			pour la compilation ET l'exécution - runtime : pour l'exécution uniquement - test : pour l'exécution des tests - provided 
+			: librairie déjà présente sur l'environnement d'exécution (exemple : la librairie servlet-api, qui sera portée par le serveur 
+			d'application) -->
+
+		<!-- Il faut remplacer le groupId, l'artifactId, et la version de cette dépendance pour qu'ils correspondent au projet 
+			créé à partir de l'archétype insee-archetype-jar <dependency> <groupId>fr.insee.appmod</groupId> <artifactId>appmod-core</artifactId> 
+			<version>0.0.1-SNAPSHOT</version> </dependency> -->
+
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-core</artifactId>
+			<version>${struts2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.15</version>
+		</dependency>
+		<dependency>
+			<groupId>org.dbunit</groupId>
+			<artifactId>dbunit</artifactId>
+			<version>2.4.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.177</version>
+		</dependency>
+
+		<dependency>
+			<groupId>fr.insee.config</groupId>
+			<artifactId>insee-config-api</artifactId>
+			<version>${fr.insee.config.version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>fr.insee.config</groupId>
+			<artifactId>insee-config-web</artifactId>
+			<version>${fr.insee.config.version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.9</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-tiles-plugin</artifactId>
+			<version>${struts2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-firefox-driver</artifactId>
+			<version>${selenium.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-support</artifactId>
+			<version>${selenium.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>${selenium.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-junit-plugin</artifactId>
+			<version>${struts2.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-common</artifactId>
+			<version>2.5.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-server</artifactId>
+			<version>2.5.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-servlet</artifactId>
+			<version>2.5.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>2.5.1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.0.0.GA</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>4.3.1.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>com.wordnik</groupId>
+			<artifactId>swagger-jersey2-jaxrs_2.10</artifactId>
+			<version>1.3.6</version>
+		</dependency>
+		<dependency>
+			<groupId>com.owlike</groupId>
+			<artifactId>genson</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+	</dependencies>
+	<!-- ********************************* FIN DE LA GESTION DES DEPENDANCES ********************************* -->
+
+
+
+
+	<!-- Le tag <build> permet de gérer des éléments ayant trait à la construction du projet par Maven, notamment la configuration 
+		des plugins quand le comportement par défaut de ceux-ci n'est pas adapté. -->
+	<build>
+		<!-- La partie ci-dessous exclut les fichiers properties "de production" (contenus dans src/main/resources/prod) de l'archive 
+			produite par exécution de "mvn package" En revanche, les fichiers seront quand même présents dans le ZIP créé par l'exécution 
+			de "mvn assembly:single", à des fins de livraison. -->
+		<resources>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+				<excludes>
+					<exclude>prod/*.properties</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<!-- La configuration des plugins se fait au cas par cas, à l'aide de tags <plugin>, eux-mêmes contenus dans un tag <plugins>. 
+			Le tag se présente de la manière suivante (l'exemple est pris sur le plugin "site" dans le fichier pom Insee) : <plugin> 
+			<groupId>org.apache.maven.plugins</groupId> <artifactId>maven-site-plugin</artifactId> <version>2.0.1</version> <configuration> 
+			<locales>fr</locales> </configuration> </plugin> Les tags <groupId>, <artifactId> et <version> servent à identifier le plugin 
+			que vous souhaitez ajouter configurer. Le tag <configuration> est celui qui va porter les différents éléments de configuration 
+			du plugin. Il va de soi que le contenu de ce tag change d'un plugin à l'autre. Dans l'exemple, nous demandons au plugin "site" 
+			(chargé de créer le site HTML documentaire Maven) de générer un site en français. Quasiment tous les plugins possèdent un 
+			site Internet, sur lequel on pourra trouver les informations nécessaires à leur configuration. -->
+		<plugins>
+			<!-- Ce plugin est celui qui est utilisé pour construire des archives personnalisées à partir d'un projet. Le descripteur 
+				"assembly-web.xml" contient les fichiers properties de l'application, un fragment de contexte Tomcat, la fiche de livraison, 
+				et le WAR du projet, conformément aux normes de livraison -->
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2.1</version>
+				<configuration>
+					<descriptors>
+						<descriptor>src/main/resources/assembly/assembly-web.xml</descriptor>
+					</descriptors>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

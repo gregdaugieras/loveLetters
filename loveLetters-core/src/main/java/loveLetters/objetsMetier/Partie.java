@@ -193,6 +193,10 @@ public class Partie {
 
     @Override
     public String toString() {
+        StringBuilder sb = new StringBuilder("Partie : ");
+        if (JoueurCourant != null) {
+            sb.append("JoueurCourant : [" + JoueurCourant.afficherMain());
+        }
         StringBuilder sbJoueur = new StringBuilder();
         for (Joueur j : joueurs) {
             sbJoueur.append("joueur " + j + ",");
@@ -201,6 +205,6 @@ public class Partie {
         for (Carte c : pioche) {
             sbPioche.append("[" + c.name() + "],");
         }
-        return "Partie : JoueurCourant : [" + JoueurCourant.afficherMain() + ", pioche=" + pioche + ", joueurs=" + joueurs + "]";
+        return sb.toString();
     }
 }
