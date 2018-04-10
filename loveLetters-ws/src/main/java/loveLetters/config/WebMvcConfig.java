@@ -7,5 +7,5 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan(basePackages = { "loveLetters.controller" })
+@ComponentScan(basePackages = { "loveLetters" })
 public class WebMvcConfig implements WebMvcConfigurer {}

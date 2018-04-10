@@ -32,6 +32,6 @@ public class PartieControllerTest {
 
     @Test
     public void getPArtieTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/partie")).andExpect(MockMvcResultMatchers.status().isOk());
+        mockMvc.perform(MockMvcRequestBuilders.get("/partie/new")).andExpect(MockMvcResultMatchers.status().isOk());
     }
 }
