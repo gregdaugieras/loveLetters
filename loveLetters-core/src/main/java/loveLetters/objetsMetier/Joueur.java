@@ -2,13 +2,19 @@ package loveLetters.objetsMetier;
 
 import java.util.concurrent.TransferQueue;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import loveLetters.exception.CaNauraitJamaisDuArriverException;
 
+@JsonPropertyOrder({ "id", "pseudo", "etat" })
 public class Joueur {
 
     private int id;
     private String pseudo;
+    @JsonIgnore
     private Carte carteActive;
+    @JsonIgnore
     private Carte cartePiochee;
     private EtatJoueur etat = EtatJoueur.NORMAL;
 
@@ -77,7 +83,7 @@ public class Joueur {
         this.cartePiochee = cartePiochee;
     }
 
-    protected int getId() {
+    public int getId() {
         return id;
     }
 

@@ -11,14 +11,20 @@ import java.util.concurrent.TransferQueue;
 
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import loveLetters.exception.CaNauraitJamaisDuArriverException;
 import loveLetters.exception.LoveLettersException;
 
+@JsonPropertyOrder({ "id", "etatPartie", "JoueurCourant", "joueurs" })
 public class Partie {
 
     private org.slf4j.Logger log = LoggerFactory.getLogger(Partie.class);
     private LinkedList<Joueur> joueurs = new LinkedList<>();
     private EtatPartie etatPartie;
+    @JsonIgnore
     private LinkedTransferQueue<Carte> pioche = new LinkedTransferQueue<>();
     private Joueur JoueurCourant;
     private int id;
@@ -66,11 +72,17 @@ public class Partie {
      * verfie si la partie est terminé car il ne reste plus qu'un joueur ou que la pioche a moins de 2 cartes
      * @return true si la pioche est finie ou s'il ne reste qu'un joueur, false sinon
      */
+    @JsonIgnore
     public boolean isFinDePArtie() {
         if (getJoueursVivant().size() < 2 || pioche.size() < 2) {
             return true;
         }
         return false;
+    }
+
+    @JsonGetter
+    public EtatPartie getEtatPartie() {
+        return etatPartie;
     }
 
     /**
@@ -157,21 +169,6 @@ public class Partie {
     }
 
     /**
-     * ajoute un joueur a la partie
-     * @param j
-     * @throws LoveLettersException si le joueur est null ou le joueur existe deja ou la partie est deja commencée
-     */
-    public void ajouterJoueur(Joueur j) throws LoveLettersException {
-        if (j == null || joueurs.contains(j)) {
-            throw new LoveLettersException("tentative d'ajout d'un joueur null ou deja existant");
-        }
-        if (etatPartie.ordinal() >= EtatPartie.COMMENCE.ordinal()) {
-            throw new LoveLettersException("il n'est pas possible d'ajouter un joueur a ce moment de la partie [" + etatPartie + "]");
-        }
-        joueurs.add(j);
-    }
-
-    /**
      * passe l'etat d'un joueur a MORT
      * @param j
      */
@@ -179,7 +176,8 @@ public class Partie {
         j.setEtat(EtatJoueur.MORT);
     }
 
-    protected Collection<Joueur> getJoueurs() {
+    @JsonGetter
+    public Collection<Joueur> getJoueurs() {
         return joueurs;
     }
 
@@ -189,6 +187,14 @@ public class Partie {
 
     public TransferQueue<Carte> getPioche() {
         return pioche;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    protected void setId(int id) {
+        this.id = id;
     }
 
     @Override
