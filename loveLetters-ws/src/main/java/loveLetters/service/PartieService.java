@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -76,5 +77,10 @@ public class PartieService implements IPartieService {
     @Override
     public void startPartie(Partie p) throws LoveLettersException {
         p.start();
+    }
+
+    @Override
+    public Joueur getJoueur(Partie p, int id) {
+        return p.getJoueurs().stream().filter(j -> j.getId() == id).collect(Collectors.toList()).get(0);
     }
 }

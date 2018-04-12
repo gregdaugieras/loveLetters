@@ -1,6 +1,7 @@
 package loveLetters.iService;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import loveLetters.exception.LoveLettersException;
 import loveLetters.objetsMetier.Joueur;
@@ -17,4 +18,6 @@ public interface IPartieService {
     void ajouterJoueur(Partie p, Joueur j) throws LoveLettersException;
 
     void startPartie(Partie p) throws LoveLettersException;
+
+    Joueur getJoueur(Partie p, int id);
 }

@@ -26,4 +26,13 @@ public enum Carte {
     protected int getNbExemplaire() {
         return nbExemplaire;
     }
+
+    public static Carte recupererCarteByNumero(int num) {
+        for (Carte carte : Carte.values()) {
+            if (num == carte.numero) {
+                return carte;
+            }
+        }
+        return null;
+    }
 }
