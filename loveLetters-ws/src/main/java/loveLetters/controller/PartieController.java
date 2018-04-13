@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import loveLetters.exception.LoveLettersException;
+import loveLetters.formulaire.CoupPoste;
 import loveLetters.iService.IActionJouer;
 import loveLetters.iService.IFabriqueActionJouer;
 import loveLetters.iService.IPartieService;
-import loveLetters.objetsMetier.Carte;
 import loveLetters.objetsMetier.Joueur;
 import loveLetters.objetsMetier.Partie;
+import loveLetters.service.ActionJouer;
 import loveLetters.service.FabriqueActionJouer;
 
 @RestController
@@ -60,11 +61,10 @@ public class PartieController {
     }
 
     @PostMapping(value = "/{idPartie}/jouer")
-    public Partie jouer(@PathVariable("idPartie") Partie p, @RequestBody String joueur, @RequestBody Carte carteJoue,
-            @RequestBody(required = false) Carte carteCible, @RequestBody(required = false) String joueurCible) {
-        Joueur attaquant = partieService.getJoueur(p, Integer.valueOf(joueur));
-        Joueur joueurVise = partieService.getJoueur(p, Integer.valueOf(joueurCible));
-        IActionJouer aj = fabriqueActionJouer.creerAction(p, attaquant, carteJoue, joueurVise, carteCible);
+    public Partie jouer(@PathVariable("idPartie") Partie p, @RequestBody CoupPoste coup) throws LoveLettersException {
+        IActionJouer aj = fabriqueActionJouer.creerAction(p, partieService.getJoueur(p, coup.getNumJoueurCourant()), coup.getCarteJoue(),
+                partieService.getJoueur(p, coup.getNumJoueurCible()), coup.getCarteCible());
+        aj.jouer();
         return p;
     }
 }
