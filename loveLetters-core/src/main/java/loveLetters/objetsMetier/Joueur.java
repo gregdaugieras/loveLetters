@@ -12,9 +12,9 @@ public class Joueur {
 
     private int id;
     private String pseudo;
-    @JsonIgnore
+    // @JsonIgnore
     private Carte carteActive;
-    @JsonIgnore
+    // @JsonIgnore
     private Carte cartePiochee;
     private EtatJoueur etat = EtatJoueur.NORMAL;
 

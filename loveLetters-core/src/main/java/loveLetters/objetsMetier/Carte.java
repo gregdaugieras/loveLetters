@@ -1,5 +1,7 @@
 package loveLetters.objetsMetier;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import loveLetters.annotation.NeedCarte;
 import loveLetters.annotation.NeedJoueur;
 
@@ -8,7 +10,12 @@ public enum Carte {
             2), @NeedJoueur ROI(6, 1), COMTESSE(7, 1), PRINCESSE(8, 1);
 
     private int numero;
+    @JsonIgnore
     private int nbExemplaire;
+
+    private Carte(int numero) {
+        this.numero = numero;
+    }
 
     private Carte(int numero, int nbExemplaire) {
         this.numero = numero;

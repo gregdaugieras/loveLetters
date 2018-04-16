@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import loveLetters.exception.LoveLettersException;
 import loveLetters.iService.IPartieService;
 import loveLetters.objetsMetier.Partie;
 import loveLetters.service.PartieService;
@@ -16,7 +17,6 @@ public class PartieConvertisseur implements Converter<String, Partie> {
     private IPartieService partieService = new PartieService();
 
     public PartieConvertisseur() {
-        // TODO Auto-generated constructor stub
     }
 
     @Override

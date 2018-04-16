@@ -18,8 +18,8 @@ public class ActionJouer4 extends ActionJouer {
         if (!this.isValide()) {
             throw new LoveLettersException("l'action n'est pas valide");
         }
-        joueur.setEtat(EtatJoueur.PROTEGE);
-        joueur.defausserCarte(carte);
+        partie.getJoueurCourant().setEtat(EtatJoueur.PROTEGE);
+        partie.getJoueurCourant().defausserCarte(carte);
         return null;
     }
 

@@ -8,16 +8,17 @@ import loveLetters.objetsMetier.Carte;
 public class CoupPoste {
 
     private int numJoueurCourant;
-    private Carte carteJoue;
+    private int carteJoue;
     private int numJoueurCible;
-    private Carte carteCible;
+    private int carteCible;
 
-    public CoupPoste(int numJoueurCourant, Carte carteJoue, int numJoueurCible, Carte carteCible) {
+    public CoupPoste(int numJoueurCourant, int idCarteJoue, int numJoueurCible, int idCarteCible) {
         super();
         this.numJoueurCourant = numJoueurCourant;
-        this.carteJoue = carteJoue;
+        this.carteJoue = idCarteJoue;
         this.numJoueurCible = numJoueurCible;
-        this.carteCible = carteCible;
+        this.carteCible = idCarteCible;
+        ;
     }
 
     public CoupPoste() {
@@ -30,7 +31,7 @@ public class CoupPoste {
     }
 
     public Carte getCarteJoue() {
-        return carteJoue;
+        return Carte.recupererCarteByNumero(carteJoue);
     }
 
     public int getNumJoueurCible() {
@@ -38,6 +39,6 @@ public class CoupPoste {
     }
 
     public Carte getCarteCible() {
-        return carteCible;
+        return Carte.recupererCarteByNumero(carteCible);
     }
 }

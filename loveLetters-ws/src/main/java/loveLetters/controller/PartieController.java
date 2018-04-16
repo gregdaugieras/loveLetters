@@ -1,7 +1,10 @@
 package loveLetters.controller;
 
 import java.util.Collection;
+import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,17 +18,21 @@ import loveLetters.formulaire.CoupPoste;
 import loveLetters.iService.IActionJouer;
 import loveLetters.iService.IFabriqueActionJouer;
 import loveLetters.iService.IPartieService;
+import loveLetters.objetsMetier.Carte;
 import loveLetters.objetsMetier.Joueur;
 import loveLetters.objetsMetier.Partie;
-import loveLetters.service.ActionJouer;
 import loveLetters.service.FabriqueActionJouer;
+import loveLetters.service.JoueurService;
 
 @RestController
 @RequestMapping(value = "/partie")
 public class PartieController {
 
+    Logger log = LoggerFactory.getLogger(PartieController.class);
     @Autowired
     private IPartieService partieService;
+    @Autowired
+    private JoueurService joueurService;
     private IFabriqueActionJouer fabriqueActionJouer = new FabriqueActionJouer();
 
     public PartieController() {
@@ -35,6 +42,11 @@ public class PartieController {
     @GetMapping(value = "/new")
     public Partie getNouvellePartie() {
         return partieService.getNouvellePartie();
+    }
+
+    @GetMapping(value = "/new1")
+    public Partie getNouvellePartie1() {
+        return partieService.initPartie1();
     }
 
     @GetMapping(value = "/")
@@ -49,8 +61,7 @@ public class PartieController {
 
     @GetMapping(value = "/{idPartie}/rejoindre")
     public Partie AjouterJoueur(@PathVariable("idPartie") Partie p) throws LoveLettersException {
-        int random = (int) (Math.round(Math.random() * 1000));
-        partieService.ajouterJoueur(p, new Joueur(random, "testJoueur" + random));
+        partieService.ajouterJoueur(p, joueurService.getNouveauJoueur());
         return p;
     }
 
@@ -61,10 +72,22 @@ public class PartieController {
     }
 
     @PostMapping(value = "/{idPartie}/jouer")
-    public Partie jouer(@PathVariable("idPartie") Partie p, @RequestBody CoupPoste coup) throws LoveLettersException {
+    public Carte jouer(@PathVariable("idPartie") Partie p, @RequestBody CoupPoste coup) throws LoveLettersException {
         IActionJouer aj = fabriqueActionJouer.creerAction(p, partieService.getJoueur(p, coup.getNumJoueurCourant()), coup.getCarteJoue(),
                 partieService.getJoueur(p, coup.getNumJoueurCible()), coup.getCarteCible());
-        aj.jouer();
-        return p;
+        Carte resultat = aj.jouer();
+        log.info(aj.toString());
+        p.debuterNouveauTour();
+        return resultat;
+    }
+
+    @GetMapping(value = "/{idPartie}/joueur/{idJoueur}")
+    public List<Carte> getCartes(@PathVariable("idPartie") Partie p, @PathVariable("idJoueur") int j) throws LoveLettersException {
+        return partieService.getMains(p, partieService.getJoueur(p, j));
+    }
+
+    @GetMapping(value = "/{idPartie}/joueurCourant")
+    public Joueur getJoueurCourant(@PathVariable("idPartie") Partie p) throws LoveLettersException {
+        return p.getJoueurCourant();
     }
 }

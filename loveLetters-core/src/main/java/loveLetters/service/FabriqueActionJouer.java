@@ -25,19 +25,19 @@ public class FabriqueActionJouer implements IFabriqueActionJouer {
                 aj = new ActionJouer3(partie, joueur, carte, joueurCible, carteCible);
                 break;
             case SERVANTE:
-                aj = new ActionJouer2(partie, joueur, carte, joueurCible, carteCible);
+                aj = new ActionJouer4(partie, joueur, carte, joueurCible, carteCible);
                 break;
             case PRINCE:
-                aj = new ActionJouer2(partie, joueur, carte, joueurCible, carteCible);
+                aj = new ActionJouer5(partie, joueur, carte, joueurCible, carteCible);
                 break;
             case ROI:
-                aj = new ActionJouer2(partie, joueur, carte, joueurCible, carteCible);
+                aj = new ActionJouer6(partie, joueur, carte, joueurCible, carteCible);
                 break;
             case COMTESSE:
-                aj = new ActionJouer2(partie, joueur, carte, joueurCible, carteCible);
+                aj = new ActionJouer7(partie, joueur, carte, joueurCible, carteCible);
                 break;
             case PRINCESSE:
-                aj = new ActionJouer2(partie, joueur, carte, joueurCible, carteCible);
+                aj = new ActionJouer8(partie, joueur, carte, joueurCible, carteCible);
                 break;
         }
         return aj;
