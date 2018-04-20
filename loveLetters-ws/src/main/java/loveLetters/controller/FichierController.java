@@ -50,7 +50,7 @@ public class FichierController {
         Class.forName("org.postgresql.Driver");
         response.addHeader("Content-Disposition", "attachment;filename=dl.csv");
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://qffidelildb02.ad.insee.intra:1983/ri_pg_fideli_qf02", "vxuxi5",
-                "F0uin0u!!")) {
+                "")) {
             // try (Connection connection = DriverManager.getConnection("jdbc:postgresql://dvfidelildb02.ad.insee.intra:1983/di_pg_fideli_dv02",
             // "user_fideli_loc", "6543fidelI")) {
             CopyManager cm = new CopyManager((BaseConnection) connection);
