@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import loveLetters.exception.CaNauraitJamaisDuArriverException;
 import loveLetters.exception.LoveLettersException;
 
-@JsonPropertyOrder({ "id", "etatPartie", "JoueurCourant", "joueurs" })
+@JsonPropertyOrder({ "idPartie", "etatPartie", "JoueurCourant", "joueurs" })
 public class Partie {
 
     private org.slf4j.Logger log = LoggerFactory.getLogger(Partie.class);
@@ -27,11 +27,11 @@ public class Partie {
     @JsonIgnore
     private LinkedTransferQueue<Carte> pioche = new LinkedTransferQueue<>();
     private Joueur JoueurCourant;
-    private int id;
+    private int idPartie;
 
     public Partie(int id) {
         super();
-        this.id = id;
+        this.idPartie = id;
         initPartie();
         etatPartie = EtatPartie.INITIALISE;
     }
@@ -190,11 +190,11 @@ public class Partie {
     }
 
     public int getId() {
-        return id;
+        return idPartie;
     }
 
     protected void setId(int id) {
-        this.id = id;
+        this.idPartie = id;
     }
 
     @Override

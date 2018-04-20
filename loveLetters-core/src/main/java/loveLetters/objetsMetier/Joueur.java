@@ -2,15 +2,14 @@ package loveLetters.objetsMetier;
 
 import java.util.concurrent.TransferQueue;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import loveLetters.exception.CaNauraitJamaisDuArriverException;
 
-@JsonPropertyOrder({ "id", "pseudo", "etat" })
+@JsonPropertyOrder({ "idJoueur", "pseudo", "etat" })
 public class Joueur {
 
-    private int id;
+    private int idJoueur;
     private String pseudo;
     // @JsonIgnore
     private Carte carteActive;
@@ -20,7 +19,7 @@ public class Joueur {
 
     public Joueur(int id) {
         super();
-        this.id = id;
+        this.idJoueur = id;
     }
 
     public EtatJoueur getEtat() {
@@ -33,7 +32,7 @@ public class Joueur {
 
     public Joueur(int id, String pseudo) {
         super();
-        this.id = id;
+        this.idJoueur = id;
         this.pseudo = pseudo;
     }
 
@@ -84,11 +83,11 @@ public class Joueur {
     }
 
     public int getId() {
-        return id;
+        return idJoueur;
     }
 
     protected void setId(int id) {
-        this.id = id;
+        this.idJoueur = id;
     }
 
     public String getPseudo() {
@@ -103,7 +102,7 @@ public class Joueur {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + id;
+        result = prime * result + idJoueur;
         return result;
     }
 
@@ -116,7 +115,7 @@ public class Joueur {
         if (getClass() != obj.getClass())
             return false;
         Joueur other = (Joueur) obj;
-        if (id != other.id)
+        if (idJoueur != other.idJoueur)
             return false;
         return true;
     }

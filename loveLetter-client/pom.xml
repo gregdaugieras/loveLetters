@@ -6,9 +6,17 @@
 		<artifactId>loveLetters</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>loveLetters-core</artifactId>
+	<artifactId>loveLetter-client</artifactId>
+	<packaging>war</packaging>
+	<properties>
+		<failOnMissingWebXml>false</failOnMissingWebXml>
+	</properties>
 
 	<dependencies>
-		
+		<dependency>
+			<groupId>daugieras.gregory</groupId>
+			<artifactId>loveLetters-ws</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>
